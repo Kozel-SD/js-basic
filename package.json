@@ -1,0 +1,21 @@
+{
+	"name": "@kozel/basic",
+	"description": "Collection of unrelated pieces of code that might be helpful",
+	"author": {
+		"name": "Denis Samorokov",
+		"url": "https://kozelhq.net"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/kozel-sd/js-basic.git"
+	},
+	"type": "module",
+	"version": "1.0.0",
+	"license": "ISC",
+	"keywords": [
+		"observable",
+		"debounce",
+		"async"
+	],
+	"main": "./index.js"
+}
