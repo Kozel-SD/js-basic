@@ -197,41 +197,8 @@ console.log(error);
 { result: 'Async error', isError: true }
 */
 ```
-# Task lock
-Can be used to ensure that only one task at a time is run.
-```javascript
-import {
-	TaskLock
-} from '@kozel/basic';
-
-let lock = new TaskLock();
-let time = Date.now();
-
-async function generateTaskAsync(x) {
-	let unlock = await lock.waitAsync();
-	console.log('Started', x, Date.now() - time);
-	await new Promise(resolve => setTimeout(resolve, Math.random() * 1000));
-	unlock();
-	console.log('Finished', x, Date.now() - time);
-}
-
-let promises = [];
-
-for (let i = 0; i < 5; i++) {
-	// Queue all the tasks simultaneously
-	promises.push(generateTaskAsync(i));
-}
-
-(async () => {
-	// Convenience method that returns the result of the provided function and guarantees to unlock after completion (with either a result or an error)
-	let x = await lock.getAsync(() => Promise.resolve(42));
-	console.log(x); // Will print 42 after all previous tasks
-})();
-
-await Promise.all(promises);
-```
 # Parallel task limiter
-Similar to `TaskLock` but allows a limited number of tasks to run simultaneously.
+Can be used to ensure that a limited number of tasks are run simultaneously.
 ```javascript
 import {
 	Parallel

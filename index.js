@@ -33,6 +33,3 @@ export {
 	safeWrap,
 	safeWrapAsync
 } from './src/safe-wrap.js';
-export {
-	TaskLock
-} from './src/task-lock.js';
