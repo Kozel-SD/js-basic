@@ -1,18 +1,9 @@
 const nop = () => {};
 
-/**
- * @template IdType, ValueType
- */
 export class PromiseCache {
 	// The cache holds proxy promises for each value ID instead of source promises, so the values can be awaited and obtained independeltly
 	#cache = new Map();
 
-	/**
-	 * @param {IdType} id
-	 * @param {ValueType=} defaultValue
-	 * @returns {ValueType | undefined}
-	 * @throws {Error}
-	 */
 	get(id, defaultValue) {
 		let handle = this.#cache.get(id);
 		if (!handle || !handle.done) {
@@ -24,11 +15,6 @@ export class PromiseCache {
 		return handle.value;
 	}
 
-	/**
-	 * @param {IdType} id
-	 * @returns {ValueType}
-	 * @throws {Error}
-	 */
 	getChecked(id) {
 		let handle = this.#cache.get(id);
 		if (!handle || !handle.done) {
@@ -40,11 +26,6 @@ export class PromiseCache {
 		return handle.value;
 	}
 
-	/**
-	 * @param {IdType} id
-	 * @returns {Promise<ValueType>}
-	 * @throws {Error}
-	 */
 	getAsync(id) {
 		let handle = this.#cache.get(id);
 		if (!handle) {
@@ -61,11 +42,6 @@ export class PromiseCache {
 		return handle.promise;
 	}
 
-	/**
-	 * @param {IdType} id
-	 * @param {ValueType | Promise<ValueType>} value
-	 * @returns {function(): void}
-	 */
 	resolve(id, value) {
 		let isCancelled = false;
 
@@ -76,10 +52,6 @@ export class PromiseCache {
 		};
 	}
 
-	/**
-	 * @param {IdType} id
-	 * @param {Error} error
-	 */
 	reject(id, error) {
 		let handle = this.#cache.get(id);
 		if (handle) {
@@ -106,9 +78,6 @@ export class PromiseCache {
 		}
 	}
 
-	/**
-	 * @param {IdType} id
-	 */
 	drop(id) {
 		let handle = this.#cache.get(id);
 		if (handle && handle.done) {

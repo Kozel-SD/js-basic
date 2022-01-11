@@ -4,17 +4,10 @@ export class EventDispatcher {
 	#data = {};
 	#eventTypes = {};
 
-	/**
-	 * @param {WaitFunc} waitFunc
-	 */
 	constructor(waitFunc) {
 		this.#waitFunc = waitFunc;
 	}
 
-	/**
-	 * @param {string} eventName
-	 * @param {function(CollectedEventData | undefined, EventData): CollectedEventData} collectFunc
-	 */
 	registerEvent(eventName, collectFunc) {
 		if (this.#eventTypes[eventName]) {
 			throw new Error('Event type already registered');
@@ -25,10 +18,6 @@ export class EventDispatcher {
 		};
 	}
 
-	/**
-	 * @param {string[]} eventNames
-	 * @param {function(Object<string, CollectedEventData>): void} handler
-	 */
 	subscribe(eventNames, handler) {
 		for (let eventName of eventNames) {
 			let eventHandlers = this.#eventTypes[eventName].handlers;
@@ -45,10 +34,6 @@ export class EventDispatcher {
 		};
 	}
 
-	/**
-	 * @param {string} eventName
-	 * @param {EventData} data
-	 */
 	emit(eventName, data) {
 		this.#data[eventName] = this.#eventTypes[eventName].collectFunc(this.#data[eventName], data);
 		if (!this.#scheduled) {
@@ -77,9 +62,6 @@ export class EventDispatcher {
 	}
 }
 
-/**
- * @type {WaitFunc}
- */
 export function asyncWaitFunc(callback) {
 	(async () => {
 		await Promise.resolve();
@@ -87,19 +69,6 @@ export function asyncWaitFunc(callback) {
 	})();
 }
 
-/**
- * @type {WaitFunc}
- */
 export function nextLoopWaitFunc(callback) {
 	setTimeout(callback);
 }
-
-/**
- * @typedef {function(function(): void): void} WaitFunc
- */
-/**
- * @typedef {*} CollectedEventData
- */
-/**
- * @typedef {*} EventData
- */

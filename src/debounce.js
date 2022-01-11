@@ -1,8 +1,3 @@
-/**
- * @param {function(): void} func
- * @param {number} timeout
- * @returns {DebounceFunc}
- */
 export function debounce(func, timeout) {
 	let lastCallTime; // Timestamp of the last call during the last timer
 	let timer = null;
@@ -41,10 +36,3 @@ export function debounce(func, timeout) {
 
 	return result;
 }
-
-/**
- * @typedef {{
- * 	(): void,
- * 	flush: function(): void
- * }} DebounceFunc
- */

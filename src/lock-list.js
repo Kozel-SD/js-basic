@@ -3,12 +3,6 @@ export class LockList {
 	#onLock;
 	#onUnlock;
 
-	/**
-	 * @param {{
-	 *  onLock?: function(): void,
-	 *  onUnlock?: function(): void
-	 * }=} options
-	 */
 	constructor(options) {
 		if (options) {
 			this.#onLock = options.onLock;
@@ -16,16 +10,10 @@ export class LockList {
 		}
 	}
 
-	/**
-	 * @returns {boolean}
-	 */
 	get isLocked() {
 		return this.#count > 0;
 	}
 
-	/**
-	 * @returns {function(): void}
-	 */
 	addLock() {
 		let needEmit = this.#onLock && !this.isLocked;
 

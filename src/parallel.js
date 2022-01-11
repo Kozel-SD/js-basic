@@ -6,23 +6,14 @@ export class Parallel {
 	#queued = 0;
 	#parallel;
 
-	/**
-	 * @param {number} parallel
-	 */
 	constructor(parallel) {
 		this.#parallel = parallel;
 	}
 
-	/**
-	 * @returns {number}
-	 */
 	get queued() {
 		return this.#queued;
 	}
 
-	/**
-	 * @returns {Promise<function(): void>}
-	 */
 	async waitAsync() {
 		// Let ThisCall be this invocation of waitAsync and NextCall be an invocation that may happen next after this one
 
@@ -54,11 +45,6 @@ export class Parallel {
 		};
 	}
 
-	/**
-	 * @template T
-	 * @param {function(): Promise<T>} getterAsync
-	 * @returns {Promise<T>}
-	 */
 	async getAsync(getterAsync) {
 		let unlock = await this.waitAsync();
 		try {

@@ -1,8 +1,3 @@
-/**
- * @template T
- * @param {function(): T} func
- * @returns {SafeWrapResult<T>}
- */
 export function safeWrap(func) {
 	try {
 		return {
@@ -17,11 +12,6 @@ export function safeWrap(func) {
 	}
 }
 
-/**
- * @template T
- * @param {Promise<T>} promise
- * @returns {Promise<SafeWrapResult<T>>}
- */
 export async function safeWrapAsync(promise) {
 	try {
 		let result = await promise;
@@ -36,11 +26,3 @@ export async function safeWrapAsync(promise) {
 		};
 	}
 }
-
-/**
- * @template T
- * @typedef {{
- * 	result: T,
- * 	isError: boolean
- * }} SafeWrapResult
- */

@@ -7,11 +7,6 @@ export class PeriodicWorker {
 	#currentRun = null;
 	#enabled;
 
-	/**
-	 * @param {function(): Promise} funcAsync
-	 * @param {number} delay
-	 * @param {PeriodicWorkerOptions=} options
-	 */
 	constructor(funcAsync, delay, options = {}) {
 		this.#func = funcAsync;
 		this.#delay = delay;
@@ -23,16 +18,10 @@ export class PeriodicWorker {
 		}
 	}
 
-	/**
-	 * @returns {Promise | null}
-	 */
 	get currentRun() {
 		return this.#currentRun;
 	}
 
-	/**
-	 * @param {boolean} runIfStopped
-	 */
 	forceRun(runIfStopped) {
 		if (this.#currentRun) {
 			return;
@@ -93,10 +82,3 @@ export class PeriodicWorker {
 		this.#pausedDelay = null;
 	}
 }
-
-/**
- * @typedef {{
- * 	runImmediately?: boolean,
- * 	disabledOnStart?: boolean
- * }} PeriodicWorkerOptions
- */
