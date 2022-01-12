@@ -158,7 +158,7 @@ console.log(base);
 ```
 # Safe wrappers
 ## safeWrap
-Wrapper for a function that could throw an error.
+Wrapper for a function that could throw an error. The provided function is called immediately without arguments.
 ```javascript
 import {
 	safeWrap
@@ -172,6 +172,26 @@ console.log(safeWrap(() => {
 /* Output:
 { result: 'Sync result', isError: false }
 { result: 'Sync error', isError: true }
+*/
+```
+## safeWrapFunc
+Wrapper for a function that could throw an error. Returns a function that passes its arguments to the provided function.
+```javascript
+import {
+	safeWrapFunc
+} from '@kozel/basic';
+
+const resultFunc = safeWrapFunc((a, b) => a + b);
+const errorFunc = safeWrapFunc(message => {
+	throw message;
+});
+
+console.log(resultFunc(2, 3));
+console.log(errorFunc('Func error'));
+
+/* Output:
+{ result: 5, isError: false }
+{ result: 'Func error', isError: true }
 */
 ```
 ## safeWrapAsync

@@ -78,4 +78,5 @@ export type SafeWrapResult<T> = {
 	result: Error
 };
 export function safeWrap<T>(func: () => T): SafeWrapResult<T>;
+export function safeWrapFunc<T, TArgs>(func: (...args: TArgs) => T): (...args: TArgs) => T;
 export function safeWrapAsync<T>(promise: PromiseLike<T>): Promise<SafeWrapResult<T>>;

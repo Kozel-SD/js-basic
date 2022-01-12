@@ -31,5 +31,6 @@ export {
 } from './src/promise-cache.js';
 export {
 	safeWrap,
+	safeWrapFunc,
 	safeWrapAsync
 } from './src/safe-wrap.js';
