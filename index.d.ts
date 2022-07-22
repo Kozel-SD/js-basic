@@ -18,6 +18,7 @@ export class EventDispatcher<EventData, CollectedEventData> {
 	emit(eventName: string, data: EventData): void;
 }
 
+export const emptyIter: Generator<never, void>;
 export function improveGeneratorProto(): void;
 export function wrap<T>(iterable: Iterable<T>): Generator<T>;
 export function concat<T>(...iterables: Iterable<T>[]): Generator<T>;
@@ -78,5 +79,5 @@ export type SafeWrapResult<T> = {
 	result: Error
 };
 export function safeWrap<T>(func: () => T): SafeWrapResult<T>;
-export function safeWrapFunc<T, TArgs>(func: (...args: TArgs) => T): (...args: TArgs) => T;
+export function safeWrapFunc<T, TArgs extends Array<any>>(func: (...args: TArgs) => T): (...args: TArgs) => T;
 export function safeWrapAsync<T>(promise: PromiseLike<T>): Promise<SafeWrapResult<T>>;
