@@ -4,6 +4,19 @@ If they impact performance of your code significantly, you might consider using
 [`privateFieldsAsProperties` compiler assumption](https://babeljs.io/docs/en/assumptions#privatefieldsasproperties)
 or even replacing all `#`'s with `_` in JS files inside `@kozel/basic` as a preprocessing step.
 The latter is guaranteed not to break anything if you use this package as is.
+
+- [Event dispatcher](#event-dispatcher)
+- [Promise cache](#promise-cache)
+- [Object utilities](#object-utilities)
+- [Safe wrappers](#safe-wrappers)
+- [Parallel task limiter](#parallel-task-limiter)
+- [Iterator methods](#iterator-methods)
+- [Periodic worker](#periodic-worker)
+- [Debounce](#debounce)
+- [Lock list](#lock-list)
+
+<a name="event-dispatcher"></a>
+
 # Event dispatcher
 Observer implementation that allows its clients to subscribe on registered events, delays event handling to a later moment,
 collects event data using custom logic, and provides every event handler with all collected event data.
@@ -62,6 +75,9 @@ Emitted
 Function that can be passed in the `EventDispatcher` constructor. Calls its callback after awaiting `Promise.resolve()`.
 ## `nextLoopWaitFunc`
 Function that can be passed in the `EventDispatcher` constructor. Calls its callback using `setTimeout` with zero delay.
+
+<a name="promise-cache"></a>
+
 # Promise cache
 ```javascript
 import {
@@ -112,6 +128,9 @@ setTimeout(cancel, 200);
 // This promise will never be resolved unless we call another cache.resolve or cache.reject for 'value A'.
 valuePromise = cache.getAsync('value A');
 ```
+
+<a name="object-utilities"></a>
+
 # Object utilities
 ```javascript
 import {
@@ -156,6 +175,9 @@ console.log(base);
 { a: 'a', b: 'new b', c: 'new c' }
 */
 ```
+
+<a name="safe-wrappers"></a>
+
 # Safe wrappers
 ## `safeWrap`
 Wrapper for a function that could throw an error. The provided function is called immediately without arguments.
@@ -217,6 +239,9 @@ console.log(error);
 { result: 'Async error', isError: true }
 */
 ```
+
+<a name="parallel-task-limiter"></a>
+
 # Parallel task limiter
 Can be used to ensure that a limited number of tasks are run simultaneously.
 ```javascript
@@ -252,6 +277,9 @@ for (let i = 0; i < 10; i++) {
 
 await Promise.all(promises);
 ```
+
+<a name="iterator-methods"></a>
+
 # Iterator methods
 ```javascript
 import {
@@ -306,6 +334,9 @@ function isPrime(n) {
 
 print('First 100 primes', integers().startWhen(x => x > 1).filter(isPrime).slice(0, 100));
 ```
+
+<a name="periodic-worker"></a>
+
 # Periodic worker
 Runs a task repeatedly with a delay between runs.
 ```javascript
@@ -378,6 +409,9 @@ process.stdin.on('keypress', key => {
 	}
 });
 ```
+
+<a name="debounce"></a>
+
 # Debounce
 ## `debounce`
 Another implementation of debounce that does not spam with `setTimeout` and `clearTimeout`.
@@ -428,6 +462,9 @@ let debouncedAsyncFunc = debounceAsync(() => new Promise(resolve => setTimeout(r
 debouncedAsyncFunc();
 setTimeout(debouncedAsyncFunc, 700);
 ```
+
+<a name="lock-list"></a>
+
 # Lock list
 ```javascript
 import {
