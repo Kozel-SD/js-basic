@@ -7,6 +7,11 @@ export interface DebounceFunc {
 	flush: () => void;
 }
 export function debounce(func: () => void, timeout: number): DebounceFunc;
+export interface DebounceFuncAsync {
+	(): void;
+	flush: () => Promise<unknown> | null;
+}
+export function debounceAsync(funcAsync: () => Promise<any>, timeout: number): DebounceFuncAsync;
 
 export type WaitFunc = (callback: () => void) => void;
 export const asyncWaitFunc: WaitFunc;

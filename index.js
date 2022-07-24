@@ -1,5 +1,6 @@
 export {
-	debounce
+	debounce,
+	debounceAsync
 } from './src/debounce.js';
 export {
 	EventDispatcher,

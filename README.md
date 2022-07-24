@@ -58,9 +58,9 @@ Emitted
 { add: [ 3, 8 ], flag: true }
 */
 ```
-## asyncWaitFunc
+## `asyncWaitFunc`
 Function that can be passed in the `EventDispatcher` constructor. Calls its callback after awaiting `Promise.resolve()`.
-## nextLoopWaitFunc
+## `nextLoopWaitFunc`
 Function that can be passed in the `EventDispatcher` constructor. Calls its callback using `setTimeout` with zero delay.
 # Promise cache
 ```javascript
@@ -157,7 +157,7 @@ console.log(base);
 */
 ```
 # Safe wrappers
-## safeWrap
+## `safeWrap`
 Wrapper for a function that could throw an error. The provided function is called immediately without arguments.
 ```javascript
 import {
@@ -174,7 +174,7 @@ console.log(safeWrap(() => {
 { result: 'Sync error', isError: true }
 */
 ```
-## safeWrapFunc
+## `safeWrapFunc`
 Wrapper for a function that could throw an error. Returns a function that passes its arguments to the provided function.
 ```javascript
 import {
@@ -194,7 +194,7 @@ console.log(errorFunc('Func error'));
 { result: 'Func error', isError: true }
 */
 ```
-## safeWrapAsync
+## `safeWrapAsync`
 Wrapper for a promise that could be rejected.
 ```javascript
 import {
@@ -339,7 +339,7 @@ emitKeypressEvents(process.stdin);
 process.stdin.on('keypress', key => {
 	switch (key) {
 		case 'g':
-			// Promise returned by runTaskAsync if the task is being run, or null otherwise.
+			// Promise returned by runTaskAsync if the task is in progress, or null otherwise.
 			log(worker.currentRun);
 			break;
 		case 'p':
@@ -361,13 +361,13 @@ process.stdin.on('keypress', key => {
 			break;
 		case 'f':
 			// Runs the task immediately.
-			// If the worker is on pause or the task in being run, does nothing.
+			// If the worker is on pause or the task in in progress, does nothing.
 			worker.forceRun(false);
 			break;
 		case 'F':
 			// Runs the task immediately.
 			// If the worker is on pause, runs the task and makes the worker wait for the full delay on resume.
-			// If the task is being run, does nothing.
+			// If the task is in progress, does nothing.
 			worker.forceRun(true);
 			break;
 		case 'q':
@@ -379,9 +379,10 @@ process.stdin.on('keypress', key => {
 });
 ```
 # Debounce
+## `debounce`
 Another implementation of debounce that does not spam with `setTimeout` and `clearTimeout`.
 
-Does not support function arguments.
+Does not support function arguments. Errors in the callback are not handled.
 ```javascript
 import {
 	debounce
@@ -404,6 +405,28 @@ let anotherFunc = debounce(() => console.log('Flushed!', Date.now() - time), 100
 anotherFunc.flush(); // Does nothing because there are no invocations to debounce
 anotherFunc();
 setTimeout(() => anotherFunc.flush(), 500);
+```
+## `debounceAsync`
+Function similar to `debounce`. The function to debounce should return an awaitable value.
+
+If the debounced function is called while the provided task is in progress, the timer to delay a new run starts when the current run is complete.
+Otherwise it behaves the same way as `debounce`.
+
+Like `debounce`, `debounceAsync` adds `flush` method that invokes the callback immediately and cancels debounced invocations.
+If `flush` is called while the task is in progress and a new run is scheduled, no new run is started but a promise for the current run is returned.
+If the task is in progress but no new run is scheduled, `flush` still returns `null`.
+
+Does not support function arguments. Errors in the callback are not handled.
+```javascript
+import {
+	debounceAsync
+} from '@kozel/basic';
+
+let debouncedAsyncFunc = debounceAsync(() => new Promise(resolve => setTimeout(resolve, 1000)), 500);
+
+// The 2nd run starts at ~2000 ms (as the 1st run is complete at ~1500 ms)
+debouncedAsyncFunc();
+setTimeout(debouncedAsyncFunc, 700);
 ```
 # Lock list
 ```javascript
